@@ -1,0 +1,28 @@
+{
+  "name": "backend-project",
+  "version": "1.0.0",
+  "description": "This is backend project ",
+  "keywords": [
+    "javascript",
+    "backend",
+    "chai"
+  ],
+  "homepage": "https://github.com/ShubhamDubey05/Backend-Development#readme",
+  "bugs": {
+    "url": "https://github.com/ShubhamDubey05/Backend-Development/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShubhamDubey05/Backend-Development.git"
+  },
+  "license": "ISC",
+  "author": "Shubham Dubey",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
