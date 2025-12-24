@@ -1,6 +1,6 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/apiError.js";
-import User from "../models/user.model.js";
+import {User} from "../models/user.model.js";
 import { uploadToCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
@@ -23,6 +23,12 @@ const registerUser = asyncHandler(async (req, res) => {
 
   const avatarPath = req.files?.avatar?.[0]?.path;
   const coverImagePath = req.files?.coverImage?.[0]?.path;
+
+  let coverImageLocalPath;
+  if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
+    coverImageLocalPath = req.files.coverImage[0].path;
+  }
+
 
   if (!avatarPath) {
     throw new ApiError(400, "Avatar image is required");
@@ -61,4 +67,33 @@ const registerUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(201, createdUser, "User registered successfully"));
 });
 
-export { registerUser };
+
+const logInUser = asyncHandler(async (req, res) => {
+  // Login user logic here
+  // Step 1:req.body to get email and password
+  // Step 2: Validate user credentials
+  // Step 3: Generate JWT token
+  // Step 4: Send response with token
+
+
+  const { username, email, password } = req.body;
+
+  if(!username || !email || !password){
+    throw new ApiError(400, "All fields are required");
+  }
+  const user = await User.findOne({
+     $or: [{ username }, { email }] 
+    });
+
+  if(!user){
+    throw new ApiError(404, "User not found");
+  }
+
+   const isPasswordValid = await user.comparePassword(password);
+
+  if(!isPasswordValid){
+    throw new ApiError(401, "Invalid password");
+  }
+}
+
+exports { registerUser, logInUser };
